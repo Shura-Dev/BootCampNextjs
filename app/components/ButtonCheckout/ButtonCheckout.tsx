@@ -1,12 +1,15 @@
 "use client"
+import { useSession } from 'next-auth/react';
 import React from 'react'
 
 
 const ButtonCheckout = ({ priceId }:{ priceId: String}) => {
+  const { data: session, status } = useSession();
+  const user = session?.user
   const suscription = async () => {
     const res = await fetch('/api/checkout', {
       method: 'POST',
-      body: JSON.stringify({priceId}),
+      body: JSON.stringify({priceId, user}),
       headers: { 'Content-Type': 'application/json'}
     })
     

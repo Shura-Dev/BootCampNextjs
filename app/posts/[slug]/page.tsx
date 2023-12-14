@@ -14,6 +14,7 @@ interface SinglePageProps {
 
 const SinglePage = async ({ params: { slug } }: SinglePageProps) => {
   const post = await getSinglePost(slug);
+  console.log(post);
 
   return (
     <div className={styles.container}>
@@ -23,7 +24,7 @@ const SinglePage = async ({ params: { slug } }: SinglePageProps) => {
           <div className={styles.user}>
             {post?.user?.image && (
               <div className={styles.userImageContainer}>
-                <Image src={"https://lh3.googleusercontent.com/a/ACg8ocJZJ89wGhnPGsRaOGKAL2JOBik9nX81bczo3PtqFkR4iy0=s96-c"} alt="" fill className={styles.avatar} />
+                <Image src={post.user.image} alt="" fill className={styles.avatar} />
               </div>
             )}
             <div className={styles.userTextContainer}>
@@ -50,9 +51,9 @@ const SinglePage = async ({ params: { slug } }: SinglePageProps) => {
             className={styles.description}
             dangerouslySetInnerHTML={{ __html: post?.desc ?? '' }}
           />
-          <div>
+          {/* <div>
             <AttachmentCv />
-          </div>
+          </div> */}
         </div>
         <Menu />
       </div>

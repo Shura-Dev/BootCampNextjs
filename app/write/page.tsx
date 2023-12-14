@@ -61,7 +61,7 @@ const WritePage = () => {
 
     if (res.status === 200) {
       const data = await res.json();
-      router.push(`/`);
+      router.push(`/posts/${data.slug}`);
     }
   };
 
@@ -109,7 +109,7 @@ const WritePage = () => {
 
         <div className={styles.options}>
         <select className={styles.select} onChange={(e) => setSubOption(e.target.value)} data-testId="writeSelectCat">
-            <option value="">Subscription</option>
+            <option value="">Access</option>
             {subscrioptionOptions.map((item) => (
               <option value={item.value} key={item.id}>{item.value}</option>
             ))}

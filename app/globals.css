@@ -3,6 +3,8 @@
   --textColor: #000;
   --softBg: #f0f0f0;
   --softTextColor: #626262;
+  --ColorCategories: crimson;
+  --ColorCategoriesHover: rgb(143, 36, 57);
 }
 
 .dark {
@@ -10,6 +12,8 @@
   --textColor: #ddd;
   --softBg: #1f273a;
   --softTextColor: #a6a6a6;
+  --ColorCategories: crimson;
+  --ColorCategoriesHover: rgb(143, 36, 57);
 }
 
 * {

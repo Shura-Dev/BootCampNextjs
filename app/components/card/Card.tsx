@@ -8,13 +8,13 @@ import { useSession } from "next-auth/react";
 
 const Card = ({ post }: { post: Post }) => {
   const { data: session, status } = useSession();
-  console.log(session);
+  const usuario = session?.user;
   
   return (
     <div className={styles.container} key={post.id}>
       {post.img && (
         <div className={styles.imageContainer}>
-          <Image src={post.img} alt={post.title} fill className={styles.image} />
+          <Image src={post.img} alt={post.title}  className={styles.image} fill />
         </div>
       )}
       <div className={styles.textContainer}>
@@ -28,7 +28,7 @@ const Card = ({ post }: { post: Post }) => {
           </span>
           <span className={styles.category}>{post.catSlug}</span>
         </div>
-        { post.subscription === "Free" ?
+        { post.subscription === "Free" || usuario?.accessAllPost ?
         <Link href={`/posts/${post.slug}`}>
           <h1>{post.title}</h1>
         </Link>
@@ -41,13 +41,13 @@ const Card = ({ post }: { post: Post }) => {
           className={styles.desc}
           dangerouslySetInnerHTML={{ __html: post.desc.substring(0, 60) }}
         />
-        { post.subscription === "Free" ?
+        { post.subscription === "Free" || usuario?.accessAllPost ?
           <Link href={`/posts/${post.slug}`} className={styles.link}>
-          Read More {post.subscription}
+          Access Free
         </Link>
         :
-        <Link href={'/pricing'} className={styles.link}>
-          Subscription 
+        <Link href={'/pricing'} className={styles.subscription}>
+          Access Premiun
         </Link>
         }
       </div>
