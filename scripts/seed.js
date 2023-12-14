@@ -1,5 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
-const { categories } = require("../lib/placeholder-data");
+const { categories, subscription } = require("../lib/placeholder-data");
 
 const prisma = new PrismaClient();
 
@@ -15,6 +15,16 @@ async function main() {
         data: category,
       });
       console.log(`Created category with slug: ${category.slug}`);
+    }
+  }
+  for (const sub of subscription) {
+    const subcriptionListExist = await prisma.subscription.findUnique({
+      where: {id: sub.id}
+    })
+    if (!subcriptionListExist) {
+      await prisma.subscription.create({
+        data: sub
+      })
     }
   }
   console.log(`Seeding finished.`);

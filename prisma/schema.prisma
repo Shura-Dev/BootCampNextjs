@@ -47,6 +47,7 @@ model User {
   sessions      Session[]
   posts         Post[]
   Comment       Comment[]
+  accessAllPost  Boolean?   @default(false)
 }
 
 model VerificationToken {
@@ -66,6 +67,12 @@ model Category {
   Posts Post[]
 }
 
+model Subscription {
+  id String @id @default(cuid()) @map("_id")
+  subscription Boolean
+  value String
+}
+
 model Post {
   id        String    @id @default(cuid()) @map("_id")
   createdAt DateTime  @default(now())
@@ -79,6 +86,7 @@ model Post {
   userEmail String
   user      User      @relation(fields: [userEmail], references: [email])
   comments  Comment[]
+  subscription String?
 }
 
 model Comment {

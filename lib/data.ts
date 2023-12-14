@@ -1,9 +1,27 @@
-import { Category, Post, User } from "@prisma/client";
+import { Category, Post, Subscription, User } from "@prisma/client";
 import { PaginatedPostsResponse } from "./definitions";
 
 export const getCategories = async (): Promise<Category[]> => {
   try {
     const response = await fetch("http://localhost:3000/api/categories", {
+      method: "GET",
+      cache: "no-cache",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch");
+    }
+
+    const responseData = await response.json();
+
+    return responseData;
+  } catch (err) {
+    throw new Error("Failed to upload");
+  }
+};
+export const getSubscriptionOptions = async (): Promise<Subscription[]> => {
+  try {
+    const response = await fetch("http://localhost:3000/api/subscription", {
       method: "GET",
       cache: "no-cache",
     });

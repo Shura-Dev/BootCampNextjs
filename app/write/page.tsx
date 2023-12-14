@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import ReactQuill from "react-quill";
-import { type Category } from "@prisma/client";
-import { getCategories, uploadToCloudinary } from "@/lib/data";
+import { Subscription, type Category } from "@prisma/client";
+import { getCategories, getSubscriptionOptions, uploadToCloudinary } from "@/lib/data";
 
 import styles from "./writePage.module.css";
 import "react-quill/dist/quill.bubble.css";
@@ -17,6 +17,7 @@ const WritePage = () => {
   const ref = useRef<any>();
 
   const [categoryList, setCategoryList] = useState<Category[]>([]);
+  const [subscrioptionOptions, setSubscriptionOptions] = useState<Subscription[]>([])
 
   const [file, setFile] = useState<File | null | undefined>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState("");
@@ -24,6 +25,7 @@ const WritePage = () => {
   const [title, setTitle] = useState("");
   const [value, setValue] = useState("");
   const [catSlug, setCatSlug] = useState("");
+  const [subOption, setSubOption] = useState("");
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -33,8 +35,8 @@ const WritePage = () => {
 
   useEffect(() => {
     getCategories().then(setCategoryList);
+    getSubscriptionOptions().then(setSubscriptionOptions)
   }, []);
-
 
   const slugify = (str: string) =>
     str
@@ -53,12 +55,13 @@ const WritePage = () => {
         img: imagePreviewUrl,
         slug: slugify(title),
         catSlug: catSlug || "style", //If not selected, choose the general category
+        subscription: subOption
       }),
     });
 
     if (res.status === 200) {
       const data = await res.json();
-      router.push(`/posts/${data.slug}`);
+      router.push(`/`);
     }
   };
 
@@ -101,17 +104,25 @@ const WritePage = () => {
           placeholder="Title"
           className={styles.input}
           onChange={(e) => setTitle(e.target.value)}
+          data-testId="writeTitleInput"
         />
 
         <div className={styles.options}>
-          <select className={styles.select} onChange={(e) => setCatSlug(e.target.value)} >
+        <select className={styles.select} onChange={(e) => setSubOption(e.target.value)} data-testId="writeSelectCat">
+            <option value="">Subscription</option>
+            {subscrioptionOptions.map((item) => (
+              <option value={item.value} key={item.id}>{item.value}</option>
+            ))}
+          </select>
+          
+          <select className={styles.select} onChange={(e) => setCatSlug(e.target.value)} data-testId="writeSelectCat">
             <option value="">Category</option>
             {categoryList.map((item) => (
               <option value={item.slug} key={item.id}>{item.title}</option>
             ))}
           </select>
 
-          <button className={styles.publish} onClick={handleSubmit}>
+          <button className={styles.publish} onClick={handleSubmit}  data-testId="writePublishBtn">
             Publish
           </button>
         </div>
@@ -150,7 +161,7 @@ const WritePage = () => {
         )}
       </div>
 
-      <div className={styles.editor}>
+      <div className={styles.editor}  data-testId="writeTextArea">
         <ReactQuill
           className={styles.textArea}
           theme="bubble"

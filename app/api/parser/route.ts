@@ -13,8 +13,8 @@ export const postPDF = async (formData: FormData, apiKey: string): Promise<Respo
   try {
     const response = await fetch('https://api.superparser.com/parse', requestOptions);
     const responseData = await response.json();
-    const newProfile = await prisma.profileCv.create(responseData.data)
-    console.log('ro',newProfile)
+    // const newProfile = await prisma.profileCv.create(responseData.data)
+    // console.log('ro',newProfile)
     return Response.json(responseData, { status: response.status });
   } catch (error) {
     console.error(error);
