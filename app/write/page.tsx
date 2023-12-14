@@ -108,7 +108,7 @@ const WritePage = () => {
         />
 
         <div className={styles.options}>
-        <select className={styles.select} onChange={(e) => setSubOption(e.target.value)} data-testId="writeSelectCat">
+        <select className={styles.select} onChange={(e) => setSubOption(e.target.value)} >
             <option value="">Access</option>
             {subscrioptionOptions.map((item) => (
               <option value={item.value} key={item.id}>{item.value}</option>
