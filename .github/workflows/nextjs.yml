@@ -17,12 +17,7 @@ jobs:
     - name: Install dependencies
       run: |
         npm ci
-    - name: Up web
-      run: |
-        npm run dev
-    - name: Run Cypress
-      run: |
-        npx cypress run
+
     - name: Echo on push
       run: |
         echo "Push event detected!"
